@@ -17,3 +17,8 @@ dayjs.extend(relativeTime);
 export const formatDate = (date: dayjs.ConfigType) => {
   return dayjs(date).format("DD.MM.YYYY");
 };
+
+export const sortByDateDescending = (
+  a: dayjs.ConfigType,
+  b: dayjs.ConfigType,
+): number => (dayjs(a).isSameOrAfter(dayjs(b), "day") ? -1 : 1);
