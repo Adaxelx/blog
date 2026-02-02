@@ -8,7 +8,11 @@ import { routeTree } from "./routeTree.gen";
 import { StrictMode } from "react";
 
 // Create a new router instance
-const router = createRouter({ routeTree, basepath: "/blog" });
+const router = createRouter({
+  routeTree,
+  basepath: "/blog",
+  scrollRestoration: true,
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

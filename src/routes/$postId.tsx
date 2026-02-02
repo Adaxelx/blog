@@ -1,3 +1,5 @@
+import { HashScroll } from "@/components/hash-scroll";
+import { components } from "@/lib/mdx";
 import type { PostMetadataMap, PostsPromiseMap } from "@/types";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
@@ -30,8 +32,9 @@ export default function PostComponent() {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
+      <HashScroll />
       <article className="prose">
-        <Post />
+        <Post components={components} />
       </article>
     </Suspense>
   );
