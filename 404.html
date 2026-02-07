@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        var base = "/blog";
+        var path = window.location.pathname.replace(base, "");
+        var search = window.location.search;
+        var hash = window.location.hash;
+        var trimmedPath = path.replace(/^\/+/, "");
+        var newUrl =
+          base +
+          "/?/" +
+          trimmedPath +
+          (search ? "&" + search.slice(1) : "") +
+          hash;
+        window.location.replace(newUrl);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
