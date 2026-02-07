@@ -27,13 +27,18 @@ export default function PostComponent() {
   }
 
   const Post = lazy(
-    posts[postPath] as () => Promise<{ default: React.ComponentType }>,
+    posts[postPath] as () => Promise<{
+      default: React.ComponentType<{
+        components: Record<string, unknown>;
+      }>;
+    }>,
   );
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <HashScroll />
       <article className="prose">
+        {/* eslint-disable-next-line react-hooks/static-components, react-hooks/static-components */}
         <Post components={components} />
       </article>
     </Suspense>
