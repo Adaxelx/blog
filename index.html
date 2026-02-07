@@ -8,8 +8,16 @@
     <link href="/src/style.css" rel="stylesheet" />
     <script>
       (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
+        var search = l.search || "";
+        var hasSlashQuery =
+          search[1] === "/" || search.toLowerCase().startsWith("?%2f");
+
+        if (hasSlashQuery) {
+          if (search.toLowerCase().startsWith("?%2f")) {
+            search = "?" + decodeURIComponent(search.slice(1));
+          }
+
+          var decoded = search
             .slice(1)
             .split("&")
             .map(function (s) {
