@@ -23,6 +23,7 @@ function Index() {
       <section className="flex flex-col gap-4">
         <Heading level="h2">Latest:</Heading>
         {Object.values(postModules)
+          .filter((value) => !value.isDraft)
           .sort((a, b) => sortByDateDescending(a.date, b.date))
           .map((value) => {
             return (

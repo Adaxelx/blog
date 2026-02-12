@@ -19,7 +19,7 @@ export default function PostComponent() {
   const { postId } = useParams({ from: Route.id });
 
   const postPath = Object.entries(postModules).find(
-    ([, value]) => postId === value.slug,
+    ([, value]) => postId === value.slug && !value.isDraft,
   )?.[0];
 
   if (!postPath) {

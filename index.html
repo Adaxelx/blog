@@ -6,6 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>adx-blog</title>
     <link href="/src/style.css" rel="stylesheet" />
+    <script>
+      // Legacy query-based redirect handling (for backwards compatibility)
+      (function (l) {
+        var search = l.search || "";
+        var hasSlashQuery =
+          search[1] === "/" || search.toLowerCase().startsWith("?%2f");
+
+        if (hasSlashQuery) {
+          if (search.toLowerCase().startsWith("?%2f")) {
+            search = "?" + decodeURIComponent(search.slice(1));
+          }
+
+          var decoded = search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          var base = l.pathname.slice(0, -1);
+          l.history.replaceState(null, null, base + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -4,20 +4,53 @@ export const metadata = {
     "Learning Java backend development as Senior React Developer with experience in JS-based backends.",
   date: "2026-02-01",
   slug: "learning-reactive-spring-as-react-developer",
+  isDraft: true,
 };
 
 <Date date={metadata.date} />
 
 # {metadata.title}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et odio vitae massa finibus maximus a non nibh. Nullam elementum mollis neque, sit amet vulputate velit bibendum at. Aliquam tellus risus, molestie et urna in, laoreet rhoncus nisl. Integer ac urna efficitur, faucibus quam id, eleifend magna. Aliquam id tortor et lacus consectetur cursus. Quisque vel molestie velit. Sed vehicula in odio a posuere. Pellentesque turpis enim, vehicula nec nisi sed, finibus sodales augue. Sed ut lectus tellus. Morbi blandit velit ipsum, ac mollis orci venenatis eget. Ut ut felis sollicitudin, bibendum lacus consequat, ultrices metus. In eu euismod justo. Etiam lacinia sed turpis eu commodo.
+## Context
 
-Cras quam lectus, consectetur at eros a, pharetra iaculis ipsum. Praesent arcu eros, consequat id ultrices interdum, hendrerit ullamcorper arcu. Etiam vel tortor maximus, ornare augue aliquet, egestas leo. Vivamus vitae lectus sodales, rutrum massa a, pulvinar elit. In sed sollicitudin orci. Nunc ornare, sem a porttitor tempor, purus eros imperdiet elit, eleifend feugiat ipsum eros placerat turpis. Praesent quis metus id nunc ultrices imperdiet. Nam aliquam, enim sit amet dictum congue, ligula diam efficitur justo, eget finibus nibh dui nec metus. Fusce mattis sapien sed nulla vulputate rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras pretium interdum nibh fermentum auctor. Mauris molestie velit vel molestie tincidunt. Donec dolor velit, cursus quis tincidunt convallis, luctus quis erat. Cras quis dictum turpis. Mauris sit amet leo id ipsum porttitor luctus. Integer blandit nibh sit amet justo posuere vulputate.
+Zawsze lubiłem być w stanie napisać aplikacje od początku do końca. Od kiedy zacząłem uczyć się frontu po jakimś czasie doszedłem do backendu i spodobała mi się mozliwość utworzenia w miarę sensownej aplikacji, która moze komunikować się z bazą itd. Naturalnie moim domyślnym językiem programowania był Javascript/Typescript, więc zacząłem od node.js, teraz głównie piszę w Next.js/React Routerze (framerwork mode, old Remix.run).
 
-Nunc rhoncus magna mattis enim viverra sagittis. Etiam nibh nisi, placerat in nunc a, pellentesque molestie lacus. Nullam sit amet aliquet quam. Integer maximus rhoncus justo, et blandit est ultrices suscipit. Nullam ligula dolor, tincidunt sit amet luctus at, bibendum dapibus nunc. Quisque id blandit erat. Curabitur malesuada nibh vitae sem porttitor dignissim. In metus eros, mattis eu efficitur quis, luctus a tellus. Aenean leo turpis, tempus non condimentum et, tincidunt et sem. Phasellus nec augue consectetur, scelerisque lectus et, porttitor ante. Phasellus venenatis commodo dolor sed tempus. Sed in odio eget felis consequat facilisis.
+### So why java?
 
-Quisque bibendum mauris metus. Sed nec feugiat ligula, non consectetur sapien. Sed dui ex, volutpat sit amet volutpat vulputate, feugiat et purus. Phasellus venenatis metus diam, non imperdiet ipsum blandit ut. Duis ut sagittis odio. Ut vitae eros bibendum, varius risus ullamcorper, pretium justo. Ut vitae ligula ante. Mauris tincidunt dolor at erat faucibus auctor. Cras consequat feugiat arcu, ut ultricies tortor fringilla sed. Proin feugiat risus ac leo molestie, vel blandit arcu viverra. Sed eu sodales elit, sit amet rhoncus orci. Aenean ac efficitur mi.
+To ze prywatnie lubię pisać wszystko w Javascripcie (takie juz moje skrzywienie) to niestety okazało się ze w mojej pracy juz nie podzielają mojego zainteresowania. Backend mamy napisany w Javie. Od zawsze chciałem celować w rolę fullstacka, ale zawsze znajdowałem wymówki ze nie lubię pisać w Javie itd. Od pewnego czasu miałem trochę mniej zadań więc stwierdziłem ze moze to jest ten moment, w którym warto się przelamać i przy okazji nauczyć się czegoś nowego.
 
-Nulla eu sodales odio. In condimentum sem vitae lacus ultricies malesuada. Cras nibh elit, consequat eget consectetur et, sodales in purus. Vestibulum ut maximus risus, condimentum tristique felis. Vestibulum augue tellus, varius vitae elit et, maximus rhoncus nisi. Vestibulum ac aliquam libero. Nulla nisi purus, suscipit eget orci malesuada, ultricies sollicitudin elit. Duis accumsan porta metus eget maximus. Cras ornare lacus sem, sed tempor urna fringilla ac. Pellentesque semper pellentesque purus at dapibus. Aliquam erat volutpat. Quisque mauris dui, sollicitudin ac gravida et, aliquam a ligula. Praesent ac sagittis enim.
+## How I started
+
+Zacząłem na lewniwca - od kursów na udemy. Nie skończyłem ich jednak, poniewaz nie lubię az tak pasywnej nauki (nawet przepisywanie tego co gość robi jest dość pasywne). Stwierdziłem ze nie bardzo ma to sens i po prostu zapytałem kolegę z backendu w pracy czy miałby jakieś małe zadanie, które mógłbym spróbować zrobić. Jako ze znam podstawy backendowe ogólnie (bazy danych itd) stwierdziłem ze moze będę wstanie odnaleźć się w kodzie (z Javą miałem styczność jedynie na studiach kilka lat temu). Okazało się ze jest jedno dość proste zadanie polegające na optymalizacji jednego zapytania do bazy. Mamy listę produktów wraz z ich ilością na magazynie, którą odświezamy przy kazdym wejściu do formularza. Produkty mają czasami powiązane produkty, które tez muszą mieć odświezony stan. Po powiązane produkty było oddzielne zapytanie, które było wywoływane nadmiarowo gdy nie było zadnych produktów powiązanych. W takim przypadku mozemy olać to zapytanie i mamy przez to małą optymalizacje.
+
+## First task
+
+Po początkowych trudnościach z postawieniem projektu (3 mikroserwisy + komunikacja z bazą danych, która musi być zapełniona sensownymi danymi) wziąłem się za to zadanie. Od początku wiedziałem, ze jak juz tylko znajdę miejsce gdzie wykonuje się to zapytanie będzie juz bardzo prosto je wyeliminować. Problem jednak w tym ze bardzo duzo czasu nie mogłem znaleźć tego zapytania. Widziałem ze projekt jest mniej więcej spójny z hexagonal architecture i DDD, ale jednak przez to ze ma juz kilka lat i był pisany przez wielu developerów na róznym poziomie doświadczenia nie było to idealnie zgodne z teorią. Zacząłem od wypisywania prostych logów, ale nie mogłem znaleźć konkretnego miejsca. Musiałem zrozumieć jak działa u nas odświezanie stanów. Okazało się, ze przy tworzeniu zamówienia wysyłany jest event, który jest zapisywany w bazie danych. Następnie przy otwarciu formularza jest on odczytywany i dopiero wtedy aktualizujemy stany. Brakowało mi tej wiedzy i początkowo szukałem przy tworzeniu zamówienia. Duzo w tej kwesti pomogła mi kibana (monitoring aplikacji) i dobrze opisane spany. Za jej pomocą mogłem w prosty sposób zobaczyć cały flow tworzenia zamówienia. Po tym odkryciu postanowiłem ze kibana jest dość dobrym źródłem spojrzenia na transakcje z lotu ptaka. Przez to przy rozpoczęciu analizy otwierania zamówienia odrazu zacząłem od kibany. Po jakimś czasie udało mi się namierzyć to zapytanie (było ono przy łączeniu oryginalnego produktu z powiązanym) i dodać jednego prostego ifa sprawdzającego czy powiązany produkt istnieje. Całość zajęła mi około 10 godzin z czego większość próba zrozumienia kodu.
+
+## There is something more
+
+Poza zadaniem w pracy w międzyczasie stwierdziłem ze sama nauka w pracy nie wystarczy i muszę zrobić jakiś prosty projekt zeby przyśpieszyć proces uczenia. Uznałem ze zrobię prostą aplikacje przetrzymującą transakcje bankowe w ramach analizy róznych statystyk wydatków itd. Flow miałbyć mniej więcej taki:
+
+- Uzytkownik wgrywa plik csv z transakcjami
+- Front parsuje go do jsona i wysyła do backendu
+- Backend odpowiada za prosty CRUD związany z transakcjami.
+
+Zazwyczaj jako frontendowiec lubiłem duzo rzeczy robić po stronie frontu. Teraz jednak po chwili zastanowienia uznałem, ze przeciez ucze się Javy, a nie robienia dość prostych rzeczy po froncie. Dodatkowo stwierdziłem ze chce spróbować jak najwięcej rzeczy wcisnąć chociaz w podstawowym zakresie z tego co uzywamy w pracy. Wymyśliłem więc następujące flow
+
+1. Uzytkownik wgrywa plik CSV.
+2. Front wysyła go do mikroserwisu files
+3. Mikroserwis files parsuje csv na json w odpowiednim fromacie i wrzuca go na kolejkę (RabbitMQ)
+4. Mikroserwis transactions odczytuje pliki z kolejki i zapisuje je do bazy (CRUD zostaje bez zmian od pierwszej wersji)
+
+Wiadomo ze takie flow do prostej aplikacji jest przesadą, ale chodzi głównie o wartość z nauki więc nie przejmowałem się tym za bardzo. Dodatkowo starałem się pisać mikroserwisy w ramach DDD i Hexagonal Architecture. Koncepcyjnie miałem z tymi tematami styczność (bardziej z clean code i architecture Roberta C. Martina, ale hexagonal architecture), ale praktycznie nie wykorzystywałem tej wiedzy za często. Stąd miałem czasami problem z tym jak rozmieścić dane klasy. AI na początku było w tym pomocne, potem starałem się juz sam jak najlepiej odwzorować tą strukturę.
+
+Aktualnie doszedłem do momentu gdzie:
+
+1. Mikroserwis files pomyślnie parsuje csv na jsona i wrzuca go na kolejke
+2. Mikroserwis transactions sczytuje z koleiki i zapisuje do bazy oraz zwraca transakcje z mozliwością filtrowania po datach. Zwraca on tez podstawowe statystyki (income, expenses i balance).
+
+Ostatecznie po skończeniu wszystkich funkcjonalności chciałbym tez spróbować to wystawić na k9s/dockerze i za api managementem, tak aby przetestować całe flow.
+
+## What I have learned after less than month of learning
 
 # somethign different

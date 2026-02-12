@@ -6,11 +6,12 @@ export type PostType = {
   date: string;
   slug: string;
   default: () => JSX.Element;
+  isDraft: boolean;
 };
 
 export type PostMetadata = Pick<
   PostType,
-  "date" | "slug" | "summary" | "title"
+  "date" | "slug" | "summary" | "title" | "isDraft"
 >;
 
 export type PostsEagerMap = Record<string, PostType>;

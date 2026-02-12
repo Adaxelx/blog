@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var search = window.location.search;
+        var hash = window.location.hash;
+        var base = "/blog";
+
+        // If we're already at index.html, don't redirect again
+        if (path.endsWith("/index.html")) {
+          return;
+        }
+
+        // Redirect to index.html while preserving the full path
+        // Store the original path in sessionStorage
+        sessionStorage.setItem("404-redirect-path", path + search + hash);
+
+        // Redirect to index.html
+        window.location.replace(base + "/index.html");
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
