@@ -2,27 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Redirecting...</title>
+    <link rel="icon" type="image/svg+xml" href="/blog/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>adx-blog</title>
+    <link href="/src/style.css" rel="stylesheet" />
     <script>
-      (function () {
-        var path = window.location.pathname;
-        var search = window.location.search;
-        var hash = window.location.hash;
-        var base = "/blog";
+      // Legacy query-based redirect handling (for backwards compatibility)
+      (function (l) {
+        var search = l.search || "";
+        var hasSlashQuery =
+          search[1] === "/" || search.toLowerCase().startsWith("?%2f");
 
-        // If we're already at index.html, don't redirect again
-        if (path.endsWith("/index.html")) {
-          return;
+        if (hasSlashQuery) {
+          if (search.toLowerCase().startsWith("?%2f")) {
+            search = "?" + decodeURIComponent(search.slice(1));
+          }
+
+          var decoded = search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          var base = l.pathname.slice(0, -1);
+          l.history.replaceState(null, null, base + decoded + l.hash);
         }
-
-        // Redirect to index.html while preserving the full path
-        // Store the original path in sessionStorage
-        sessionStorage.setItem("404-redirect-path", path + search + hash);
-
-        // Redirect to index.html
-        window.location.replace(base + "/index.html");
-      })();
+      })(window.location);
     </script>
+    <script type="module" crossorigin src="/blog/assets/index-BdDACvZg.js"></script>
+    <link rel="stylesheet" crossorigin href="/blog/assets/index-B3Yc1eIn.css">
   </head>
-  <body></body>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

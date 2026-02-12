@@ -7,17 +7,8 @@
     <title>adx-blog</title>
     <link href="/src/style.css" rel="stylesheet" />
     <script>
+      // Legacy query-based redirect handling (for backwards compatibility)
       (function (l) {
-        // Check if we were redirected from 404.html
-        var redirectPath = sessionStorage.getItem('404-redirect-path');
-        if (redirectPath) {
-          sessionStorage.removeItem('404-redirect-path');
-          // Restore the original pathname so TanStack Router can handle it
-          l.history.replaceState(null, null, redirectPath);
-          return;
-        }
-        
-        // Legacy query-based redirect handling (keep for backwards compatibility)
         var search = l.search || "";
         var hasSlashQuery =
           search[1] === "/" || search.toLowerCase().startsWith("?%2f");
