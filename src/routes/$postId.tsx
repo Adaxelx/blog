@@ -37,7 +37,7 @@ export default function PostComponent() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <HashScroll />
-      <article className="prose">
+      <article className="prose flex flex-col">
         {/* eslint-disable-next-line react-hooks/static-components, react-hooks/static-components */}
         <Post components={components} />
       </article>
