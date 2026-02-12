@@ -8,6 +8,16 @@
     <link href="/src/style.css" rel="stylesheet" />
     <script>
       (function (l) {
+        // Check if we were redirected from 404.html
+        var redirectPath = sessionStorage.getItem('404-redirect-path');
+        if (redirectPath) {
+          sessionStorage.removeItem('404-redirect-path');
+          // Restore the original pathname so TanStack Router can handle it
+          l.history.replaceState(null, null, redirectPath);
+          return;
+        }
+        
+        // Legacy query-based redirect handling (keep for backwards compatibility)
         var search = l.search || "";
         var hasSlashQuery =
           search[1] === "/" || search.toLowerCase().startsWith("?%2f");
@@ -29,8 +39,8 @@
         }
       })(window.location);
     </script>
-    <script type="module" crossorigin src="/blog/assets/index-LNctS3PV.js"></script>
-    <link rel="stylesheet" crossorigin href="/blog/assets/index-B2OU7dYq.css">
+    <script type="module" crossorigin src="/blog/assets/index-BdDACvZg.js"></script>
+    <link rel="stylesheet" crossorigin href="/blog/assets/index-B3Yc1eIn.css">
   </head>
   <body>
     <div id="root"></div>

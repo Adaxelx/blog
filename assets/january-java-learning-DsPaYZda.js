@@ -1,0 +1,1 @@
+import{i as e,r as t}from"./index-BdDACvZg.js";export{t as default,e as metadata};
