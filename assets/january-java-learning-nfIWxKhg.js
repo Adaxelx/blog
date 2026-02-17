@@ -1,1 +1,0 @@
-import{i as e,r as t}from"./index-wCk6dgh2.js";export{t as default,e as metadata};
