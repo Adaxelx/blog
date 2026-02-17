@@ -44,13 +44,8 @@ function Index() {
                   className="block transition-opacity hover:opacity-90 focus-visible:opacity-90"
                 >
                   <Card className="h-full transition-colors hover:bg-accent/50">
-                    <CardHeader className="p-4 pb-2 sm:p-6 sm:pb-2">
-                      <Typography
-                        as="time"
-                        variant="secondary"
-                        size="12"
-                        className="order-first sm:order-last sm:self-end"
-                      >
+                    <CardHeader className="p-4 pb-2 sm:p-6 sm:pb-2 flex flex-col gap-1">
+                      <Typography as="time" variant="secondary" size="12">
                         {formatDate(value.date)}
                       </Typography>
                       <CardTitle className="text-lg sm:text-xl">
