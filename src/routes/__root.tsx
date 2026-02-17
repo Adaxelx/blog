@@ -1,3 +1,4 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { RssButton } from "@/components/rss-button";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -8,7 +9,9 @@ const RootLayout = () => (
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 flex-1">
         <Outlet />
       </div>
-      <footer className="flex justify-end pt-4">
+      <footer className="flex justify-end pt-4 gap-2 items-center">
+        <ModeToggle />
+
         <RssButton />
       </footer>
     </main>

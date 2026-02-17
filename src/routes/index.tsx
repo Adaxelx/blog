@@ -23,7 +23,7 @@ const postModules = import.meta.glob("../posts/**/*.mdx", {
 function Index() {
   return (
     <>
-      <header className="space-y-1">
+      <header className="space-y-1 flex flex-col">
         <Heading level="h1">adaxelx blog</Heading>
       </header>
 
