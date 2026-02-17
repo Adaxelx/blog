@@ -1,10 +1,16 @@
+import { RssButton } from "@/components/rss-button";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 const RootLayout = () => (
   <>
-    <main className="size-full p-2 py-4 flex flex-col gap-8">
-      <Outlet />
+    <main className="min-h-svh w-full px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 flex flex-col">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 flex-1">
+        <Outlet />
+      </div>
+      <footer className="flex justify-end pt-4">
+        <RssButton />
+      </footer>
     </main>
     <TanStackRouterDevtools />
   </>

@@ -2,15 +2,15 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
 
-const heading = cva("text-gray-900 antialiased", {
+const heading = cva("text-foreground antialiased", {
   variants: {
     level: {
-      h1: "text-[40px] leading-12 font-bold",
-      h2: "text-[32px] leading-10 font-semibold",
-      h3: "text-[28px] leading-9 font-semibold",
-      h4: "text-[24px] leading-8 font-semibold",
-      h5: "text-[20px] leading-7 font-medium",
-      h6: "text-[16px] leading-6 font-medium",
+      h1: "text-3xl font-bold leading-tight sm:text-4xl sm:leading-12 md:text-[40px]",
+      h2: "text-2xl font-semibold leading-tight sm:text-3xl sm:leading-10 md:text-[32px]",
+      h3: "text-xl font-semibold leading-tight sm:text-2xl sm:leading-9 md:text-[28px]",
+      h4: "text-lg font-semibold leading-tight sm:text-xl sm:leading-8 md:text-[24px]",
+      h5: "text-base font-medium leading-tight sm:text-lg sm:leading-7 md:text-[20px]",
+      h6: "text-sm font-medium leading-tight sm:text-base sm:leading-6 md:text-[16px]",
     },
     variant: {
       primary: "text-primary",

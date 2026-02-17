@@ -38,13 +38,13 @@ export default function PostComponent() {
   return (
     <Suspense
       fallback={
-        <div className="grid place-content-center h-svh w-full">
+        <div className="grid min-h-[50vh] place-content-center">
           <Spinner className="size-12" />
         </div>
       }
     >
       <HashScroll />
-      <article className="prose flex flex-col">
+      <article className="prose prose-neutral dark:prose-invert flex max-w-none flex-col prose-a:text-primary prose-a:underline-offset-4 hover:prose-a:underline">
         {/* eslint-disable-next-line react-hooks/static-components, react-hooks/static-components */}
         <Post components={components} />
       </article>

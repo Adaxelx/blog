@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
 
-const typography = cva("text-gray-900 antialiased", {
+const typography = cva("text-foreground antialiased", {
   variants: {
     size: {
       "16": "text-[16px] leading-6",
@@ -20,9 +20,9 @@ const typography = cva("text-gray-900 antialiased", {
       bold: "font-bold",
     },
     variant: {
-      primary: "text-primary",
-      secondary: "text-slate-600",
-      tertiary: "text-slate-400",
+      primary: "text-foreground",
+      secondary: "text-muted-foreground",
+      tertiary: "text-muted-foreground/80",
     },
   },
   defaultVariants: {

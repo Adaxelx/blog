@@ -1,10 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heading } from "@/components/heading";
 import { Typography } from "@/components/typography";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { formatDate, sortByDateDescending } from "@/lib/date";
 import type { PostMetadataMap } from "@/types";
-import { RssIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -18,43 +23,51 @@ const postModules = import.meta.glob("../posts/**/*.mdx", {
 function Index() {
   return (
     <>
-      <header className="flex flex-col sm:flex-row gap-2">
-        <Heading level="h1">Welcome to Adx blog</Heading>
+      <header className="space-y-1">
+        <Heading level="h1">adaxelx blog</Heading>
       </header>
 
-      <section className="flex flex-col gap-4 flex-1">
-        <Heading level="h2">Latest:</Heading>
-        {Object.values(postModules)
-          .filter((value) => !value.isDraft)
-          .slice(0, 10)
-          .sort((a, b) => sortByDateDescending(a.date, b.date))
-          .map((value) => {
-            return (
-              <Link to="/posts/$postId" params={{ postId: value.slug }}>
-                <article className="p-2 border rounded-md flex flex-col gap-2">
-                  <Typography
-                    as="time"
-                    className="self-end"
-                    variant="secondary"
-                  >
-                    {formatDate(value.date)}
-                  </Typography>
-                  <Heading level="h4">{value.title}</Heading>
-                  <Typography size="14">{value.summary}</Typography>
-                </article>
-              </Link>
-            );
-          })}
+      <section className="flex flex-col gap-6">
+        <Heading level="h2" className="text-muted-foreground">
+          Latest
+        </Heading>
+        <ul className="grid gap-4 sm:gap-5">
+          {Object.values(postModules)
+            .filter((value) => !value.isDraft)
+            .slice(0, 10)
+            .sort((a, b) => sortByDateDescending(a.date, b.date))
+            .map((value) => (
+              <li key={value.slug}>
+                <Link
+                  to="/posts/$postId"
+                  params={{ postId: value.slug }}
+                  className="block transition-opacity hover:opacity-90 focus-visible:opacity-90"
+                >
+                  <Card className="h-full transition-colors hover:bg-accent/50">
+                    <CardHeader className="p-4 pb-2 sm:p-6 sm:pb-2">
+                      <Typography
+                        as="time"
+                        variant="secondary"
+                        size="12"
+                        className="order-first sm:order-last sm:self-end"
+                      >
+                        {formatDate(value.date)}
+                      </Typography>
+                      <CardTitle className="text-lg sm:text-xl">
+                        {value.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+                      <CardDescription className="text-sm leading-5 sm:text-[14px]">
+                        {value.summary}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </li>
+            ))}
+        </ul>
       </section>
-
-      <footer className="flex justify-end">
-        <Button asChild>
-          <a href="rss.xml" target="_blank" rel="noopener noreferrer">
-            <RssIcon className="size-4" />
-            Subscribe to RSS
-          </a>
-        </Button>
-      </footer>
     </>
   );
 }
