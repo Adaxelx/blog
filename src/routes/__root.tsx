@@ -9,7 +9,7 @@ const RootLayout = () => (
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 flex-1">
         <Outlet />
       </div>
-      <footer className="flex justify-end pt-4 gap-2 items-center">
+      <footer className="flex justify-end pt-4 gap-2 items-center mx-auto w-full max-w-3xl">
         <ModeToggle />
 
         <RssButton />
