@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Adx blog]]></title>
+        <description><![CDATA[Adx blog]]></description>
+        <link>http://localhost:5173</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Tue, 17 Feb 2026 20:01:34 GMT</lastBuildDate>
+        <atom:link href="http://localhost:5173/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Stepping outside your role - how to gain an edge at work]]></title>
+            <description><![CDATA[A story about learning new things at work and doing things that nobody wants to do.]]></description>
+            <link>https://adaxelx.github.io/blog/posts/step-outside-your-role</link>
+            <guid isPermaLink="true">https://adaxelx.github.io/blog/posts/step-outside-your-role</guid>
+            <pubDate>Thu, 12 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

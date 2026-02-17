@@ -3,6 +3,8 @@ import { Heading } from "@/components/heading";
 import { Typography } from "@/components/typography";
 import { formatDate, sortByDateDescending } from "@/lib/date";
 import type { PostMetadataMap } from "@/types";
+import { RssIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -16,18 +18,19 @@ const postModules = import.meta.glob("../posts/**/*.mdx", {
 function Index() {
   return (
     <>
-      <header>
+      <header className="flex flex-col sm:flex-row gap-2">
         <Heading level="h1">Welcome to Adx blog</Heading>
       </header>
 
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 flex-1">
         <Heading level="h2">Latest:</Heading>
         {Object.values(postModules)
           .filter((value) => !value.isDraft)
+          .slice(0, 10)
           .sort((a, b) => sortByDateDescending(a.date, b.date))
           .map((value) => {
             return (
-              <Link to="/$postId" params={{ postId: value.slug }}>
+              <Link to="/posts/$postId" params={{ postId: value.slug }}>
                 <article className="p-2 border rounded-md flex flex-col gap-2">
                   <Typography
                     as="time"
@@ -43,6 +46,15 @@ function Index() {
             );
           })}
       </section>
+
+      <footer className="flex justify-end">
+        <Button asChild>
+          <a href="rss.xml" target="_blank" rel="noopener noreferrer">
+            <RssIcon className="size-4" />
+            Subscribe to RSS
+          </a>
+        </Button>
+      </footer>
     </>
   );
 }

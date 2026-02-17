@@ -1,4 +1,5 @@
 import { Date } from "@/components/date";
+import { GoBackButton } from "@/components/go-back-button";
 import { Heading } from "@/components/heading";
 import { Typography } from "@/components/typography";
 import type { HTMLAttributes, ReactNode } from "react";
@@ -91,6 +92,7 @@ export const components = {
     );
   },
   Date,
+  GoBackButton,
 };
 
 const getSlug = (children: ReactNode) => {

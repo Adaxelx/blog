@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run generate-rss && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "generate-rss": "tsx src/lib/rss.ts",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "rss": "^1.2.2",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18"
   },
@@ -33,6 +35,7 @@
     "@types/node": "^24.10.9",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
+    "@types/rss": "^0.0.32",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.1",
