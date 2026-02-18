@@ -82,15 +82,9 @@ const allPosts = mdxFiles
   .filter((post): post is PostMetadata => post !== null);
 
 const feed = new RSS({
-  title: "Adx blog",
-  site_url:
-    process.env.NODE_ENV === "production"
-      ? "https://adaxelx.github.io/blog/"
-      : "http://localhost:5173",
-  feed_url:
-    process.env.NODE_ENV === "production"
-      ? "https://adaxelx.github.io/blog/rss.xml"
-      : "http://localhost:5173/rss.xml",
+  title: "adaxelx blog",
+  site_url: "https://adaxelx.github.io/blog/",
+  feed_url: "https://adaxelx.github.io/blog/rss.xml",
 });
 
 allPosts
