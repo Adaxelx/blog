@@ -2,9 +2,142 @@ export const metadata = {
   title: "Enchance your query keys with Proxy",
   summary:
     "How to make your query keys always include basic properties which should be included in every react-query key.",
-  date: "2026-02-02",
+  date: "2026-02-20",
   slug: "enchance-query-keys-with-proxy",
-  isDraft: true,
+  isDraft: false,
 };
 
-# Test
+<GoBackButton />
+<Date date={metadata.date} />
+
+# {metadata.title}
+
+Treat it as extension of iconic blog post [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
+
+## Managing query keys
+
+As your application grows you have to think about some design decisions. One of them can include managing your query keys in [Tanstack Query](https://tanstack.com/query/latest). Recently I encountered this situation at work. I had facade for all react-query hooks, used strategy from [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys) so I felt pretty save with my design decisions.
+
+It looked something like this:
+
+```typescript:queryUtils.ts
+export function useQueryWithLocation<
+  TQueryFnData = unknown,
+  TErrorType = ErrorType,
+  TSelectData = TQueryFnData,
+>(
+  queryKey: ((shop: string) => QueryKey) | QueryKey,
+  queryFn: (
+    shop: string,
+    context: QueryFunctionContext,
+  ) => Promise<TQueryFnData>,
+  options: Omit<
+    UseQueryOptions<TQueryFnData, TErrorType, TSelectData>,
+    "queryKey" | "queryFn"
+  > &
+    StatusHandlers<TSelectData, TErrorType> = {},
+) {
+  const shop = useShop();
+
+  const queryResult = useQuery<TQueryFnData, TErrorType, TSelectData>(
+    typeof queryKey === "function"
+      ? queryKey(shop)
+      : Array.isArray(queryKey)
+        ? [shop, ...queryKey]
+        : [shop, queryKey],
+    (context) => queryFn(shop, context),
+    options,
+  );
+
+  return queryResult;
+}
+```
+
+```typescript:search/queries.ts
+export const searchScopes = {
+  searchResults: 'searchResults',
+};
+
+export const searchKeys = {
+  searchResults: (shopMpk: string, orderId: string, searchValue: string) => [
+    searchScopes.searchResults,
+    shopMpk,
+    orderId,
+    searchValue,
+  ],
+};
+
+export const useSearchResults = ({
+  options,
+  orderProposalId,
+  searchValue,
+}: CustomUseQueryOptions<SearchDTO, ErrorType> & {
+  orderProposalId: string;
+  searchValue: string;
+}) => {
+  return useQueryWithLocation<SearchDTO, ErrorType>(
+    (shopMpk: string) => searchKeys.searchResults(shopMpk, orderProposalId, searchValue),
+    (shopMpk: string, { signal }) =>
+      getFoundItems({
+        shopMpk,
+        orderProposalId,
+        finderOptions: { query: searchValue },
+        signal,
+      }),
+    options
+  );
+};
+```
+
+As you can see I had facade named useQueryWithLocation which added current shop to all queries. Also I had domain scoped queries for every functionality where I had scope, keys and query hooks which used useQueryWithLocation and defined keys. Structure like this is great when you have to invalidate some query or do something with it. You don't have to manually define keys but you can use your const map of keys. For example:
+
+```typescript
+await queryClient.invalidateQueries(
+  {
+    queryKey: searchKeys.searchResults(shopMpk,orderId)
+    exact: false
+  }
+)
+```
+
+This can invalidate all search queries for given order and shop. But if you read [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys) before you already know that. So one question pops up...
+
+## Great so what's the problem?
+
+```typescript
+export function useEnchancedQuery<
+  TQueryFnData = unknown,
+  TErrorType = ErrorType,
+  TSelectData = TQueryFnData,
+>({
+  endpoint,
+  queryKey,
+  options = {},
+  fetchOptions,
+}: {
+  endpoint: (params: { shopMpk: string }) => string;
+  options?: Omit<
+    UseQueryOptions<TQueryFnData, TErrorType, TSelectData>,
+    "queryKey" | "queryFn"
+  > &
+    StatusHandlers<TSelectData, TErrorType>;
+  fetchOptions: Omit<ConfigType, "shopMpk" | "contextRole">;
+  queryKey: QueryKey;
+}) {
+  const shopMpk = useActiveShopMpk();
+  const userWithShop = useShopSelector();
+  const enhancedQueryKey = useEnchancedQueryKey(queryKey);
+
+  return useQuery(
+    enhancedQueryKey,
+    (context) =>
+      client(endpoint({ shopMpk }), {
+        ...fetchOptions,
+        signal: context.signal,
+        shopMpk,
+        contextRole: userWithShop.contextRole,
+      }),
+    options,
+  );
+}
+```

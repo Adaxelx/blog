@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/code-block";
 import { Date } from "@/components/date";
 import { GoBackButton } from "@/components/go-back-button";
 import { Heading } from "@/components/heading";
@@ -83,12 +84,54 @@ export const components = {
       </Typography>
     );
   },
-  a({ children, ...props }: HTMLAttributes<HTMLAnchorElement>) {
-    const slug = getSlug(children);
+  a({
+    children,
+    href,
+    ...props
+  }: HTMLAttributes<HTMLAnchorElement> & { href?: string }) {
+    const isInternalLink =
+      href && (href.startsWith("/") || href.startsWith("#"));
+
+    if (isInternalLink) {
+      const slug = getSlug(children);
+      return (
+        <a {...props} href={`#${slug}`}>
+          {children}
+        </a>
+      );
+    }
+
     return (
-      <a {...props} href={`#${slug}`}>
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
         {children}
       </a>
+    );
+  },
+  code({
+    className,
+    children,
+    ...props
+  }: HTMLAttributes<HTMLElement> & { children?: ReactNode }) {
+    const rawLang = className?.replace("language-", "").trim() ?? "";
+    const colonIndex = rawLang.indexOf(":");
+    const language = colonIndex > 0 ? rawLang.slice(0, colonIndex) : rawLang;
+    const filename =
+      colonIndex > 0 ? rawLang.slice(colonIndex + 1).trim() : undefined;
+    const codeString =
+      typeof children === "string" ? children : String(children ?? "");
+    if (language) {
+      return (
+        <CodeBlock
+          language={language}
+          code={codeString}
+          filename={filename || undefined}
+        />
+      );
+    }
+    return (
+      <code className={className} {...props}>
+        {children}
+      </code>
     );
   },
   Date,

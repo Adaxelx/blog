@@ -26,6 +26,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-syntax-highlighter": "^16.1.0",
     "rss": "^1.2.2",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18"
@@ -36,6 +37,7 @@
     "@types/node": "^24.10.9",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@types/rss": "^0.0.32",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
