@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Enchance your query keys with Proxy",
+  title: "Enhance your query keys with Proxy",
   summary:
-    "How to make your query keys always include basic properties which should be included in every react-query key.",
+    "How to make your query keys always include basic properties that should be included in every react-query key.",
   date: "2026-02-20",
   slug: "enhance-query-keys-with-proxy",
   isDraft: false,
@@ -12,11 +12,11 @@ export const metadata = {
 
 # {metadata.title}
 
-Treat it as extension of iconic blog post [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
+Treat it as an extension of the iconic blog post [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
 
 ## Managing query keys
 
-As your application grows you have to think about some design decisions. One of them can include managing your query keys in [Tanstack Query](https://tanstack.com/query/latest). Recently I encountered this situation at work. I had facade for all react-query hooks, used strategy from [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys) so I felt pretty save with my design decisions.
+As your application grows, you have to think about some design decisions. One of them can be managing your query keys in [Tanstack Query](https://tanstack.com/query/latest). Recently I encountered this situation at work. I had a facade for all react-query hooks and used the strategy from [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys), so I felt pretty safe with my design decisions.
 
 It looked something like this:
 
@@ -89,26 +89,24 @@ export const useSearchResults = ({
 };
 ```
 
-As you can see I had facade named useQueryWithLocation which added current shop to all queries. Also I had domain scoped queries for every functionality where I had scope, keys and query hooks which used useQueryWithLocation and defined keys. Structure like this is great when you have to invalidate some query or do something with it. You don't have to manually define keys but you can use your const map of keys. For example:
+As you can see, I had a facade named useQueryWithLocation which added the current shop to all queries. I also had domain-scoped queries for every functionality where I had a scope, keys, and query hooks which used useQueryWithLocation and defined keys. A structure like this is great when you have to invalidate a query or do something with it. You don't have to manually define keys; you can use your const map of keys. For example:
 
 ```typescript
-await queryClient.invalidateQueries(
-  {
-    queryKey: searchKeys.searchResults(shop,orderId)
-    exact: false
-  }
-)
+await queryClient.invalidateQueries({
+  queryKey: searchKeys.searchResults(shop, orderId),
+  exact: false,
+});
 ```
 
-This can invalidate all search queries for given order and shop. But if you read [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys) before you already know that. So one question pops up...
+This can invalidate all search queries for a given order and shop. But if you have read [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys), you already know that. So one question pops up...
 
-## Great so what's the problem?
+## Great, so what's the problem?
 
-Problem started when we implemented roles into our application. As you can see in previous code samples I passed `shop` value. This is passed in almost every query because most of queries is scoped by shop. Now we have to add new value to every query which is `role`. I started to think about how to do that without much work. And it was hard. I was thinking about setting `role` to local storage. This was easy way but not correct. My thought was going to harder way which was adding `role` in similar fashion that `shop` was added. But that wasn't ideal. If I would do that in that way I would have to add it to `useQueryWithLocation` and then manually to all keys object and fetch functions (in this example `getFoundItems`). In AI world that probably could be automated but if something this simple is so hard to change I started thinking about refactoring because clearly current solution doesn't scale well.
+The problem started when we implemented roles into our application. As you can see in the previous code samples, I passed the `shop` value. It is passed in almost every query because most queries are scoped by shop. Now we have to add a new value to every query, which is `role`. I started thinking about how to do that without much work. And it was hard. I was thinking about setting the `role` in local storage. That was the easy way but not the correct one. I was leaning toward the harder way, which was adding the `role` in a similar fashion to how `shop` was added. But that wasn't ideal. If I did that, I would have to add it to `useQueryWithLocation` and then manually to all key objects and fetch functions (in this example, `getFoundItems`). In the AI world that could probably be automated, but if something this simple is so hard to change, I started thinking about refactoring—because clearly the current solution doesn't scale well.
 
-## What was needed changes?
+## What changes were needed?
 
-I started with renaming default useQuery facade to useEnhancedQuery and changing some small details.
+I started by renaming the default useQuery facade to useEnhancedQuery and changing some small details.
 
 ```typescript:queryUtils.tsx
 export function useEnhancedQuery<
@@ -148,7 +146,7 @@ export function useEnhancedQuery<
 }
 ```
 
-As you can see I added role there. There is also new hook called useEnhancedQueryKey. It's very simple and I will show it soon. I also changed way of passing fetch function. Now useEnhancedQuery accepts endpoint (which is callback with shop passed and returning string). I done that because it's now easier to pass straight away new parameters to client (fetch wrapper) function. Now let's see `useEnhancedQueryKey`
+As you can see, I added the role there. There is also a new hook called useEnhancedQueryKey. It's very simple, and I will show it soon. I also changed the way of passing the fetch function. Now useEnhancedQuery accepts an endpoint (which is a callback with the shop passed and returning a string). I did that because it's now easier to pass new parameters straight away to the client (fetch wrapper) function. Now let's see `useEnhancedQueryKey`.
 
 ```typescript:queryUtils.tsx
 export const useEnhancedQueryKey = (queryKey: QueryKey) => {
@@ -162,7 +160,7 @@ export const useEnhancedQueryKey = (queryKey: QueryKey) => {
 };
 ```
 
-As you can see it only adds shop and context role on start of the query key which was passed. Next we can see changed usage of useSearchResults.
+As you can see, it only adds the shop and context role at the start of the query key that was passed. Next, we can see the changed usage of useSearchResults.
 
 ```typescript:search/queries.ts
 export const searchScopes = {
@@ -178,7 +176,7 @@ const searchKeys = {
 };
 ```
 
-Search scopes remains unchanged. Although there are changes in searchKeys. First small details is that its not longer exported. Second is that there is no shop being passed. And for the same reason there is no new role attribute. As you know from previous sample `useEncahncedQueryKey` is now responsible for that. But what which invalidate query example?Now when we want invalidate we can't use search keys because they are not exported. We have solution for that:
+Search scopes remain unchanged. There are changes in searchKeys, though. The first small detail is that it's no longer exported. The second is that there is no shop being passed, and for the same reason there is no new role attribute. As you know from the previous sample, `useEnhancedQueryKey` is now responsible for that. But what about the invalidate-query example? Now when we want to invalidate, we can't use search keys because they are not exported. We have a solution for that:
 
 ```typescript:search/queries.ts
 export const useEnhancedSearchKeys = () => {
@@ -186,7 +184,7 @@ export const useEnhancedSearchKeys = () => {
 };
 ```
 
-Hm that's doesn't explains much... This hook now is responsible for returning search keys. Is more restrictive because we can't use hooks in regular functions outside react so thats not good. But I think there is more positives with that approach. Let's see details of useEnchanceQueryKeys hook:
+Hm, that doesn't explain much... This hook is now responsible for returning the search keys. It is more restrictive because we can't use hooks in regular functions outside React, so that's not ideal. But I think there are more positives to that approach. Let's see the details of the useEnhanceQueryKeys hook:
 
 ```typescript:queryUtils.tsx
 export const useEnchanceQueryKeys = <T extends Record<string, (...args: any[]) => QueryKey>>(
@@ -206,7 +204,7 @@ export const useEnchanceQueryKeys = <T extends Record<string, (...args: any[]) =
 };
 ```
 
-Now that's more interesting! I don't know about you but this was first time when I used [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). I know about this object for a long time but never found suitable use case. Now I have it (At least I think I have 😅). EnchanceQueryKey function is very similar to `useEnhancedQueryKeys` hook but it's a function not regular array.
+Now that's more interesting! I don't know about you, but this was the first time I used [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). I have known about this object for a long time but never found a suitable use case. Now I have it (at least I think I have 😅). The enhanceQueryKey function is very similar to the `useEnhancedQueryKeys` hook, but it's a function, not a regular array.
 
 ```typescript:queryUtils.tsx
 export const useEnchanceQueryKey = () => {
@@ -215,7 +213,7 @@ export const useEnchanceQueryKey = () => {
 };
 ```
 
-We use that function for enhance regular query keys with fixed attributes - in our case shop and role. Proxy works in a way that it wraps typical actions (for example get) on that object. In our case we want to add our shop and role to regular return value from our object. Let's see the flow:
+We use that function to enhance regular query keys with fixed attributes—in our case, shop and role. A proxy works in a way that it wraps typical actions (for example, get) on that object. In our case, we want to add our shop and role to the regular return value from our object. Let's see the flow:
 
 ```typescript
 const searchKeys = useEnhancedSearchKeys();
@@ -228,23 +226,21 @@ searchKeys.searchResults(orderId, "example search");
 // with
 // enhanceQueryKey(searchKeys.searchResults(orderId, "example search"));
 
-// so now when we want to invalidate every search query for order we can pass this search keys as this:
+// so now when we want to invalidate every search query for an order we can pass these search keys like this:
 
-await queryClient.invalidateQueries(
-  {
-    queryKey: searchKeys.searchResults(orderId) // shop and role are included
-    exact: false
-  }
-)
+await queryClient.invalidateQueries({
+  queryKey: searchKeys.searchResults(orderId), // shop and role are included
+  exact: false,
+});
 ```
 
-In this approach now when in future I would have to add new attribute to all queries I have easy way to extend it. I have to only change it in useEnhanceQueryKey and useEnhancedQuery (and client if it's needed in fetch call). In our case I have to add also 2 headers for every fetch call:
+In this approach, when in the future I have to add a new attribute to all queries, I have an easy way to extend it. I only have to change it in useEnhanceQueryKey and useEnhancedQuery (and the client if it's needed in the fetch call). In our case, I also have to add two headers for every fetch call:
 
 `X-Context-Store and X-Context-Role`
 
-I wasn't big fan of it because I don't see much sense in that but it is for preauth check as I understand it. So it's not only source of auth checking (because that's unsafe) but it helps with rejecting some calls before it reach later stages of auth. But now after refactor this adding of two headers is relatively easy as you saw in useEnhancedQuery example when I pass role and shop for client.
+I wasn't a big fan of it because I don't see much sense in it, but it is for a preauth check as I understand it. So it's not the only source of auth checking (because that's unsafe), but it helps with rejecting some calls before they reach the later stages of auth. But now, after the refactor, adding these two headers is relatively easy, as you saw in the useEnhancedQuery example when I pass role and shop to the client.
 
-Now last chunk of code is usage of useSearchResults with new useEnchancedQuery call.
+The last chunk of code is the usage of useSearchResults with the new useEnhancedQuery call.
 
 ```typescript
 export const useSearchResults = ({
@@ -269,8 +265,8 @@ export const useSearchResults = ({
 };
 ```
 
-As you can see we pass query key similar to previous example but now it's enhanced automatically. As I mentioned before we now pass endpoint as string and fetch options config (there is schema for validation, transactionId and error object for monitoring). Usage is very similar to previous case but now it's much more scalable.
+As you can see, we pass the query key similar to the previous example, but now it's enhanced automatically. As I mentioned before, we now pass the endpoint as a string and a fetch-options config (there is a schema for validation, transactionId, and an error object for monitoring). The usage is very similar to the previous case, but now it's much more scalable.
 
 ## Conclusion
 
-One of finding of this is that you shouldn't be scared of refactoring sometimes. If time for adding new thing is close to refactoring it into something better don't even hesitate. Even if it's 1 or 2 days more for simple task I think it's worth it because next time you would be prepared and next change will take you a few minutes. Next thing is that some general knowledge is worth it even if you don't necessary use it right away. I know you can handle this case without using proxy but it for me it was very satisfying moment when I could use that and I remembered that in that case it would be suitable.
+One of the findings of this is that you shouldn't be scared of refactoring sometimes. If the time for adding a new thing is close to that of refactoring it into something better, don't even hesitate. Even if it's 1 or 2 days more for a simple task, I think it's worth it because next time you will be prepared and the next change will take you a few minutes. The next thing is that some general knowledge is worth it even if you don't necessarily use it right away. I know you can handle this case without using a proxy, but for me it was a very satisfying moment when I could use it and remembered that in that case it would be suitable.
