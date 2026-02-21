@@ -4,8 +4,15 @@
         <description><![CDATA[adaxelx blog]]></description>
         <link>https://adaxelx.github.io/blog/</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 18 Feb 2026 06:31:54 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 21 Feb 2026 11:32:58 GMT</lastBuildDate>
         <atom:link href="https://adaxelx.github.io/blog/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Enhance your query keys with Proxy]]></title>
+            <description><![CDATA[How to make your query keys always include basic properties that should be included in every react-query key.]]></description>
+            <link>https://adaxelx.github.io/blog/posts/enhance-query-keys-with-proxy</link>
+            <guid isPermaLink="true">https://adaxelx.github.io/blog/posts/enhance-query-keys-with-proxy</guid>
+            <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Stepping outside your role - how to gain an edge at work]]></title>
             <description><![CDATA[A story about learning new things at work and doing things that nobody wants to do.]]></description>
