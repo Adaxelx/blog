@@ -12,7 +12,7 @@ export const metadata = {
 
 # {metadata.title}
 
-Treat it as an extension of the iconic blog post [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys)
+Treat it as an extension of the iconic blog post [Effective react query keys](https://tkdodo.eu/blog/effective-react-query-keys). If you already use a similar structure (scope, keys, hooks) and have one shared context like `shop` in every key, this post is for you.
 
 ## Managing query keys
 
@@ -89,7 +89,7 @@ export const useSearchResults = ({
 };
 ```
 
-As you can see, I had a facade named useQueryWithLocation which added the current shop to all queries. I also had domain-scoped queries for every functionality where I had a scope, keys, and query hooks which used useQueryWithLocation and defined keys. A structure like this is great when you have to invalidate a query or do something with it. You don't have to manually define keys; you can use your const map of keys. For example:
+In this setup, I had a facade named useQueryWithLocation which added the current shop to all queries. I also had domain-scoped queries for every functionality where I had a scope, keys, and query hooks which used useQueryWithLocation and defined keys. A structure like this is great when you have to invalidate a query or do something with it. You don't have to manually define keys; you can use your const map of keys. For example:
 
 ```typescript
 await queryClient.invalidateQueries({
@@ -102,7 +102,7 @@ This can invalidate all search queries for a given order and shop. But if you ha
 
 ## Great, so what's the problem?
 
-The problem started when we implemented roles into our application. As you can see in the previous code samples, I passed the `shop` value. It is passed in almost every query because most queries are scoped by shop. Now we have to add a new value to every query, which is `role`. I started thinking about how to do that without much work. And it was hard. I was thinking about setting the `role` in local storage. That was the easy way but not the correct one. I was leaning toward the harder way, which was adding the `role` in a similar fashion to how `shop` was added. But that wasn't ideal. If I did that, I would have to add it to `useQueryWithLocation` and then manually to all key objects and fetch functions (in this example, `getFoundItems`). In the AI world that could probably be automated, but if something this simple is so hard to change, I started thinking about refactoring—because clearly the current solution doesn't scale well.
+The problem started when we implemented roles into our application. In the previous code samples, I passed the `shop` value. It is passed in almost every query because most queries are scoped by shop. Now we have to add a new value to every query, which is `role`. I started thinking about how to do that without much work. And it was hard. I was thinking about setting the `role` in local storage. That was the easy way but not the correct one. I was leaning toward the harder way, which was adding the `role` in a similar fashion to how `shop` was added. But that wasn't ideal. If I did that, I would have to add it to `useQueryWithLocation` and then manually to all key objects and fetch functions (in this example, `getFoundItems`). In the AI world that could probably be automated, but if something this simple is so hard to change, I started thinking about refactoring because clearly the current solution doesn't scale well.
 
 ## What changes were needed?
 
@@ -128,7 +128,7 @@ export function useEnhancedQuery<
   fetchOptions: Omit<ConfigType, "shop" | "role">;
   queryKey: QueryKey;
 }) {
-  const shop = useActiveshop();
+  const shop = useActiveShop();
   const role = useRole();
   const enhancedQueryKey = useEnhancedQueryKey(queryKey);
 
@@ -146,11 +146,11 @@ export function useEnhancedQuery<
 }
 ```
 
-As you can see, I added the role there. There is also a new hook called useEnhancedQueryKey. It's very simple, and I will show it soon. I also changed the way of passing the fetch function. Now useEnhancedQuery accepts an endpoint (which is a callback with the shop passed and returning a string). I did that because it's now easier to pass new parameters straight away to the client (fetch wrapper) function. Now let's see `useEnhancedQueryKey`.
+Notice that I added the role there. There is also a new hook called useEnhancedQueryKey. It's very simple, and I will show it soon. I also changed the way of passing the fetch function. Now useEnhancedQuery accepts an endpoint (which is a callback with the shop passed and returning a string). I did that because it's now easier to pass new parameters straight away to the client (fetch wrapper) function. Now let's see `useEnhancedQueryKey`.
 
 ```typescript:queryUtils.tsx
 export const useEnhancedQueryKey = (queryKey: QueryKey) => {
-  const shop = useActiveShopMpk();
+  const shop = useActiveShop();
   const role = useRole();
 
   return useMemo(
@@ -160,7 +160,7 @@ export const useEnhancedQueryKey = (queryKey: QueryKey) => {
 };
 ```
 
-As you can see, it only adds the shop and context role at the start of the query key that was passed. Next, we can see the changed usage of useSearchResults.
+In short, it only adds the shop and context role at the start of the query key that was passed. Next, we can see the changed usage of useSearchResults.
 
 ```typescript:search/queries.ts
 export const searchScopes = {
@@ -180,17 +180,17 @@ Search scopes remain unchanged. There are changes in searchKeys, though. The fir
 
 ```typescript:search/queries.ts
 export const useEnhancedSearchKeys = () => {
-  return useEnchanceQueryKeys(searchKeys);
+  return useEnhanceQueryKeys(searchKeys);
 };
 ```
 
 Hm, that doesn't explain much... This hook is now responsible for returning the search keys. It is more restrictive because we can't use hooks in regular functions outside React, so that's not ideal. But I think there are more positives to that approach. Let's see the details of the useEnhanceQueryKeys hook:
 
 ```typescript:queryUtils.tsx
-export const useEnchanceQueryKeys = <T extends Record<string, (...args: any[]) => QueryKey>>(
+export const useEnhanceQueryKeys = <T extends Record<string, (...args: any[]) => QueryKey>>(
   queryKeys: T
 ) => {
-  const enhanceQueryKey = useEnchanceQueryKey();
+  const enhanceQueryKey = useEnhanceQueryKey();
 
   return useMemo(() => {
     return new Proxy(queryKeys, {
@@ -207,7 +207,7 @@ export const useEnchanceQueryKeys = <T extends Record<string, (...args: any[]) =
 Now that's more interesting! I don't know about you, but this was the first time I used [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). I have known about this object for a long time but never found a suitable use case. Now I have it (at least I think I have 😅). The enhanceQueryKey function is very similar to the `useEnhancedQueryKeys` hook, but it's a function, not a regular array.
 
 ```typescript:queryUtils.tsx
-export const useEnchanceQueryKey = () => {
+export const useEnhanceQueryKey = () => {
   const enhancedKeys = useEnhancedQueryKey([]);
   return (queryKey: QueryKey) => [...enhancedKeys, ...queryKey];
 };
@@ -265,7 +265,7 @@ export const useSearchResults = ({
 };
 ```
 
-As you can see, we pass the query key similar to the previous example, but now it's enhanced automatically. As I mentioned before, we now pass the endpoint as a string and a fetch-options config (there is a schema for validation, transactionId, and an error object for monitoring). The usage is very similar to the previous case, but now it's much more scalable.
+Here we pass the query key similar to the previous example, but now it's enhanced automatically. As I mentioned before, we now pass the endpoint as a string and a fetch-options config (there is a schema for validation, transactionId, and an error object for monitoring). The usage is very similar to the previous case, but now it's much more scalable.
 
 ## Conclusion
 
